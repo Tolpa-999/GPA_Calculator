@@ -1,238 +1,160 @@
 // Get elements from page :- 
+
 let mainSection = document.getElementsByClassName("main-section")[0];
 let selectValues = document.querySelectorAll("select");
+let courseName = document.getElementsByClassName("course-name")
 let creditValues = document.querySelectorAll('.credits');
-let divResult = document.createElement("div");
 let removeButton = document.querySelectorAll(".button");
 let addCourse = document.getElementsByClassName("add-task")[0];
 let rows = document.getElementsByClassName("rows")[0]
+let showGrade = document.getElementsByClassName("show-grade")[0]
+let divResult = document.querySelector(".zz");
+let clearAll = document.querySelector(".hide")
 
-let xx = 5
-
-let TotalGradePoints = [];
-TotalGradePoints.length = selectValues.length
-
-let TotalCreditHours = [];
-TotalCreditHours.length = creditValues.length;
-
-let grade = [];
-grade.length = selectValues.length;
-
-let credit = [];
-credit.length = creditValues.length
-
-let finalGradeResult = 0
-let finalCreditHours = 0
-
-
-selectValues.forEach(function (ele, index) {
-    ele.addEventListener("change", () => {
-        grade[index] = ele.value
-    })
-})
-
-creditValues.forEach(function (ele, index) {
-    ele.addEventListener("input", () => {
-        credit[index] = ele.value
-    })
-})
-
-selectValues.forEach(function (ele, index) {
-    ele.addEventListener("change", () => {
-        if (grade[index] != null && credit[index] != null) {
-            TotalGradePoints[index] = +credit[index];
-            // console.log(TotalGradePoints)
-            TotalCreditHours[index] = grade[index] * credit[index]
-            // console.log(TotalCreditHours)
-            TotalCreditHours[index] = grade[index] * credit[index]
-            let graderesult = TotalGradePoints.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalGradeResult = graderesult
-            
-            let creditHours = TotalCreditHours.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalCreditHours = creditHours
-
-            final()
-    }
-    })
-})
-
-
-
-creditValues.forEach(function (ele, index) {
-    ele.addEventListener("input", () => {
-        if (grade[index] != null && credit[index] != null) {
-            TotalGradePoints[index] = +credit[index];
-            // console.log(TotalGradePoints)
-            TotalCreditHours[index] = grade[index] * credit[index]
-            let graderesult = TotalGradePoints.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalGradeResult = graderesult
-            
-            let creditHours = TotalCreditHours.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalCreditHours = creditHours
-
-            // console.log(finalGradeResult)
-            // console.log(finalCreditHours)
-            final()
-        }
-    })
-})
-
-
-function final() {
-    divResult.textContent = "";
-    divResult.className = "none"
-
-    divResult.className = "grade";
-    divResult.appendChild(document.createTextNode(`Your GPA Is : ${(finalCreditHours / finalGradeResult).toFixed(2)}`))
-    if (finalGradeResult == 0 || finalCreditHours == 0) {
-        divResult.remove()
-    } else {
-        mainSection.appendChild(divResult)
-    }
+function getElementsFromPage() {
+    mainSection = document.getElementsByClassName("main-section")[0];
+    selectValues = document.querySelectorAll("select");
+    courseName = document.querySelectorAll(".course-name");
+    creditValues = document.querySelectorAll('.credits');
+    removeButton = document.querySelectorAll(".button");
+    addCourse = document.getElementsByClassName("add-task")[0];
+    rows = document.getElementsByClassName("rows")[0]
+    showGrade = document.getElementsByClassName("show-grade")[0]
 }
 
-removeButton.forEach(function (ele, index) {
-    ele.addEventListener("click", () => {
-        ele.parentElement.remove()
+// num for future inputs id
+let xx = 5
 
-        selectValues.forEach(function (ele, index) {
+// initiate the main arrays 
+let TotalGradePoints = [];
+let TotalCreditHours = [];
+let grade = [];
+let credit = [];
+let finalGradeResult = 0;
+let finalCreditHours = 0;
+
+function gitElementsCount() {
+    TotalGradePoints.length = selectValues.length
+    TotalCreditHours.length = creditValues.length;
+    
+    grade.length = selectValues.length;
+    credit.length = creditValues.length;
+
+    finalGradeResult = 0
+    finalCreditHours = 0
+}
+
+// put all grades values in one main array
+selectValues.forEach(function (ele, index) {
+    gitElementsCount()
     ele.addEventListener("change", () => {
         grade[index] = ele.value
     })
 })
 
+// put all credit values in one main array
 creditValues.forEach(function (ele, index) {
+    gitElementsCount()
     ele.addEventListener("input", () => {
         credit[index] = ele.value
     })
 })
-        
-    } )
-})
 
-
+// add course button
 addCourse.addEventListener("click", () => {
     let newRow = document.createElement("div");
     newRow.className = "row"
-    newRow.innerHTML = `                <input type="text" class="course-name" id="course-name-${xx}" placeholder="Course Name">
+    newRow.innerHTML = `<input type="text" class="course-name" id="course-name-${xx}" placeholder="Course Name">
                 <select name="Letter-grade" id="Letter-grade-${xx}">
                     <option value="none" selected disabled hidden>Grade</option>
-                    <option value="4">A</option>
-                    <option value="3.7">A-</option>
-                    <option value="3.3">B+</option>
-                    <option value="3">B</option>
-                    <option value="2.7">B-</option>
-                    <option value="2.3">C+</option>
-                    <option value="2">C</option>
-                    <option value="1.7">C-</option>
-                    <option value="1.3">D+</option>
-                    <option value="1">D</option>
-                    <option value="0.7">D-</option>
-                    <option value="0">F</option>
+                    <option value="4">A+</option>
+                        <option value="3.7">A</option>
+                        <option value="3.4">A-</option>
+                        <option value="3.2">B+</option>
+                        <option value="3">B</option>
+                        <option value="2.8">B-</option>
+                        <option value="2.6">C+</option>
+                        <option value="2.4">C</option>
+                        <option value="2.2">C-</option>
+                        <option value="2">D</option>
                 </select>
                 <input type="number" class="credits" id="credits-${xx}" placeholder="Credits">
                 <div class="button">x</div>`
+    // <div class="button">x</div>
     ++xx
     rows.appendChild(newRow)
-
-    selectValues = document.querySelectorAll("select");
-    creditValues = document.querySelectorAll('.credits');
-    divResult = document.createElement("div");
-    removeButton = document.querySelectorAll(".button");
-
-    TotalGradePoints.length = selectValues.length
-    TotalCreditHours.length = creditValues.length;
-    grade.length = selectValues.length;
-    credit.length = creditValues.length
-    // refresh();
-
-
-    selectValues.forEach(function (ele, index) {
-    ele.addEventListener("change", () => {
-        grade[index] = ele.value
-    })
-    })
-
-creditValues.forEach(function (ele, index) {
-    ele.addEventListener("input", () => {
-        credit[index] = ele.value
-    })
+    getElementsFromPage()
+    gitElementsCount()
+    removeCourse()
 })
 
-selectValues.forEach(function (ele, index) {
-    ele.addEventListener("change", () => {
-        if (grade[index] != null && credit[index] != null) {
-            TotalGradePoints[index] = +credit[index];
-            // console.log(TotalGradePoints)
-            TotalCreditHours[index] = grade[index] * credit[index]
-            // console.log(TotalCreditHours)
-            TotalCreditHours[index] = grade[index] * credit[index]
-            let graderesult = TotalGradePoints.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalGradeResult = graderesult
-            
-            let creditHours = TotalCreditHours.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalCreditHours = creditHours
-            final()
-    }
-    })
-})
-
-
-
-creditValues.forEach(function (ele, index) {
-    ele.addEventListener("input", () => {
-        if (grade[index] != null && credit[index] != null) {
-            TotalGradePoints[index] = +credit[index];
-            // console.log(TotalGradePoints)
-            TotalCreditHours[index] = grade[index] * credit[index]
-            let graderesult = TotalGradePoints.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalGradeResult = graderesult
-            
-            let creditHours = TotalCreditHours.reduce(function (acc, current) {
-                return acc + current
-            })
-            finalCreditHours = creditHours
-
-            final()
-        }
-    })
-})
-
-
-// function final() {
-//     divResult.textContent = "";
-//     divResult.className = "none"
-
-//     divResult.className = "grade";
-//     console.log(finalGradeResult)
-//     console.log(finalCreditHours)
-//     divResult.appendChild(document.createTextNode(`Your GPA Is : ${(finalCreditHours / finalGradeResult).toFixed(2)}`))
-//     if (finalGradeResult == 0 || finalCreditHours == 0) {
-//         divResult.remove()
-//     } else {
-//         mainSection.appendChild(divResult)
-//     }
-// }
-
+removeCourse()
+// Remove courses from page
+function removeCourse() {
     removeButton.forEach(function (ele, index) {
     ele.addEventListener("click", () => {
         ele.parentElement.remove()
+        removeButton = document.querySelectorAll(".button");
+        getElementsFromPage()
+        gitElementsCount()
+    } )
+})
+}
+
+// TotalCreditHours
+
+// Calculate the GPA button
+showGrade.addEventListener("click", function () {
+    console.log("zz")
+    let loopCount = TotalCreditHours.length
+    let decide = false
+    for (let i = 0; i < loopCount; i++) {
+        if (selectValues[i].selectedIndex != 0 && creditValues[i].value != "") {
+            TotalGradePoints[i] = +credit[i]
+            decide = true
+            TotalCreditHours[i] = +grade[i] * +credit[i]
+            let graderesult = TotalGradePoints.reduce(function (acc, current) {
+                return acc + current
+            })
+            finalGradeResult = graderesult
+            
+            let creditHours = TotalCreditHours.reduce(function (acc, current) {
+                return acc + current
+            })
+            finalCreditHours = creditHours
+        }
+        else {
+            console.log(`element ${selectValues[i]} or ${creditValues[i]} is empty`)
+        }
+    }
+    if (decide == true) {
+        showFinal()
+    } else {
+        hideFinal()
+    }
+    clearAll.className = "remove-all"
+})
+clearAll.addEventListener(("click"), () => {
+    getElementsFromPage()
+    removeAll()
+    hideFinal()
+})
+function showFinal() {
+    divResult.className = "grade"
+    divResult.innerHTML = `Your GPA Is : ${(finalCreditHours / finalGradeResult).toFixed(2)}`
+}
+function hideFinal() {
+    divResult.className = "zz";
+    divResult.innerHTML = "";
+}
+function removeAll() {
+    courseName.forEach(function (ele) {
+        ele.value = ""
     })
-        
-    
-})
-})
+    selectValues.forEach(function (ele) {
+        ele.selectedIndex = 0
+    })
+    creditValues.forEach(function (ele) {
+        ele.value = ""
+    })
+}
