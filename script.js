@@ -44,14 +44,14 @@ function gitElementsCount() {
     finalCreditHours = 0
 }
 
-// put all grades values in one main array
+function refreshValues() {
+    // put all grades values in one main array
 selectValues.forEach(function (ele, index) {
     gitElementsCount()
     ele.addEventListener("change", () => {
         grade[index] = ele.value
     })
 })
-
 // put all credit values in one main array
 creditValues.forEach(function (ele, index) {
     gitElementsCount()
@@ -59,6 +59,7 @@ creditValues.forEach(function (ele, index) {
         credit[index] = ele.value
     })
 })
+}
 
 // add course button
 addCourse.addEventListener("click", () => {
@@ -86,6 +87,7 @@ addCourse.addEventListener("click", () => {
     getElementsFromPage()
     gitElementsCount()
     removeCourse()
+    refreshValues()
 })
 
 removeCourse()
@@ -106,25 +108,36 @@ function removeCourse() {
 // Calculate the GPA button
 showGrade.addEventListener("click", function () {
     console.log("zz")
+    getElementsFromPage()
+    gitElementsCount()
     let loopCount = TotalCreditHours.length
     let decide = false
     for (let i = 0; i < loopCount; i++) {
         if (selectValues[i].selectedIndex != 0 && creditValues[i].value != "") {
             TotalGradePoints[i] = +credit[i]
+            console.log(credit[i])
+            //
+            console.log(TotalGradePoints[i])
             decide = true
             TotalCreditHours[i] = +grade[i] * +credit[i]
+            //
+            console.log(TotalCreditHours[i])
             let graderesult = TotalGradePoints.reduce(function (acc, current) {
                 return acc + current
             })
             finalGradeResult = graderesult
+            //
+            console.log(finalGradeResult)
             
             let creditHours = TotalCreditHours.reduce(function (acc, current) {
                 return acc + current
             })
             finalCreditHours = creditHours
+            //
+            console.log(finalCreditHours)
         }
         else {
-            console.log(`element ${selectValues[i]} or ${creditValues[i]} is empty`)
+            console.log(`element ${selectValues[i].ELEMENT_NODE} or ${creditValues[i].ELEMENT_NODE} is empty`)
         }
     }
     if (decide == true) {
@@ -141,7 +154,11 @@ clearAll.addEventListener(("click"), () => {
 })
 function showFinal() {
     divResult.className = "grade"
+    console.log(finalCreditHours)
+    console.log(finalGradeResult)
     divResult.innerHTML = `Your GPA Is : ${(finalCreditHours / finalGradeResult).toFixed(2)}`
+    getElementsFromPage()
+    gitElementsCount()
 }
 function hideFinal() {
     divResult.className = "zz";
