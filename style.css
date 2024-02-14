@@ -130,7 +130,9 @@ input[type=number]:focus::placeholder {
     transition: .3s;
 }
 
-/* .add-task {
+.add-task, 
+.show-grade,
+.remove-all {
     width: 20%;
     padding: 6px 3px;
     text-align: center;
@@ -139,13 +141,18 @@ input[type=number]:focus::placeholder {
     cursor: pointer;
     transition: all .2s ease-in-out;
     margin-top: -10px;
-    margin-bottom: 20px;
     margin-left: 10px;
 }
 
-.add-task:hover {
+.hide {
+    display: none;
+}
+
+.add-task:hover,
+.show-grade:hover,
+.remove-all:hover {
     border: 1.1px solid #0b0b2b;
-} */
+}
 
 .grade {
     font-size: 25px;
